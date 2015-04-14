@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/mvc 
+http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+ 
+	<context:component-scan base-package="package com.sjsu.cmpe275.lab3.controller" />
+ 	<mvc:annotation-driven />
+	
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+	<bean id="playerService" class="com.sjsu.cmpe275.lab3.service.PlayerService"></bean>
+	<bean id="sponsorService" class="com.sjsu.cmpe275.lab3.service.SponsorService"></bean>
+	<bean id="opponentService" class="com.sjsu.cmpe275.lab3.service.OpponentService"></bean>
+	
+	<bean id="playerDao" class="com.sjsu.cmpe275.lab3.daoimpl.PlayerDaoImpl"></bean>
+	<!-- <bean id="sponsorDao" class="com.sjsu.cmpe275.lab3.dao.impl.SponsorDao"></bean>
+	<bean id="opponentDao" class="com.sjsu.cmpe275.lab3.dao.impl.OpponentDao"></bean> -->
+	
+<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://cmpe282lab3.cuq1mfe3ymlp.us-west-1.rds.amazonaws.com/275lab" />
+		<property name="username" value="nikhil" />
+		<property name="password" value="awsmysql" />
+	</bean>
+
+</beans>
