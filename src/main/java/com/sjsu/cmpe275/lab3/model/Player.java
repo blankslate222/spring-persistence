@@ -1,6 +1,8 @@
 package com.sjsu.cmpe275.lab3.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Player implements Serializable{
@@ -16,7 +18,7 @@ public class Player implements Serializable{
 	private String description;
 	private String address;
 	private Sponsor sponsor;
-	
+	private List<String> opponents = new ArrayList<String>();
 	public int getId() {
 		return id;
 	}
@@ -58,6 +60,12 @@ public class Player implements Serializable{
 	}
 	public void setSponsor(Sponsor sponsor) {
 		this.sponsor = sponsor;
+	}
+	public List<String> getOpponents() {
+		return opponents;
+	}
+	public void setOpponents(List<String> opponents) {
+		this.opponents = opponents;
 	}
 
 }

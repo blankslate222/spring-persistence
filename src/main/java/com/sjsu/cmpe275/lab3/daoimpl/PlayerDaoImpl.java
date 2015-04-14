@@ -34,7 +34,8 @@ public class PlayerDaoImpl implements PlayerDao {
 		int insert = 0;
 
 		String sql = "insert into player"
-				+ "(firstName, lastName, email, address, sponsor) values(?,?,?,?,?)";
+				+ "(firstName, lastName, email, address, sponsor, description) "
+				+ " values(?,?,?,?,?,?)";
 
 		conn = getDataSource().getConnection();
 		ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -43,6 +44,7 @@ public class PlayerDaoImpl implements PlayerDao {
 		ps.setString(3, player.getEmail());
 		ps.setString(4, player.getAddress());
 		ps.setInt(5, player.getSponsor().getId());
+		ps.setString(6, player.getDescription());
 		// set others
 		insert = ps.executeUpdate();
 		ResultSet rs = ps.getGeneratedKeys();
@@ -63,6 +65,14 @@ public class PlayerDaoImpl implements PlayerDao {
 
 	public Player updatePlayer(int playerId, Player player) throws SQLException {
 		// TODO Auto-generated method stub
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int insert = 0;
+
+		String sql = "update player set  id = ?";
+
+		conn = getDataSource().getConnection();
+		ps = conn.prepareStatement(sql);
 		return null;
 	}
 

@@ -29,5 +29,9 @@ public class PlayerService {
 	public Player getPlayer(int id) throws SQLException {
 		return getPlayerDaoImpl().getPlayer(id);
 	}
+	
+	public Player updatePlayer(int id, Player player) throws SQLException{
+		return getPlayerDaoImpl().updatePlayer(id, player);
+	}
 
 }
