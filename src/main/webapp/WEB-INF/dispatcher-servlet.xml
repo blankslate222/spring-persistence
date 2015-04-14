@@ -28,8 +28,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 	<bean id="opponentService" class="com.sjsu.cmpe275.lab3.service.OpponentService"></bean>
 	
 	<bean id="playerDao" class="com.sjsu.cmpe275.lab3.daoimpl.PlayerDaoImpl"></bean>
-	<!-- <bean id="sponsorDao" class="com.sjsu.cmpe275.lab3.dao.impl.SponsorDao"></bean>
-	<bean id="opponentDao" class="com.sjsu.cmpe275.lab3.dao.impl.OpponentDao"></bean> -->
+	<bean id="sponsorDao" class="com.sjsu.cmpe275.lab3.daoimpl.SponsorDaoImpl"></bean>
+	<bean id="opponentDao" class="com.sjsu.cmpe275.lab3.daoimpl.OpponentDaoImpl"></bean>
 	
 <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
