@@ -1,7 +1,13 @@
 package com.sjsu.cmpe275.lab3.model;
 
-public class Sponsor {
+import java.io.Serializable;
 
+public class Sponsor implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	private String description;

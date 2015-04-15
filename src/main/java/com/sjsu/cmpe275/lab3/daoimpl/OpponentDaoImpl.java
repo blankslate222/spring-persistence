@@ -26,15 +26,53 @@ public class OpponentDaoImpl implements OpponentDao {
 		this.dataSource = dataSource;
 	}
 
-	public void addOpponent(int playerId1, int playerId2) {
+	public void addOpponent(int playerId1, int playerId2) throws SQLException{
 		// TODO Auto-generated method stub
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int insert = 0;
 
+		String sql = "insert into opponent"
+				+ "(player1, player2) values(?,?)";
+
+			conn = getDataSource().getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, playerId1);
+			ps.setInt(2, playerId2);
+			insert = ps.executeUpdate();
+	//set others
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 	}
 
-	public void removeOpponent(int playerId1, int playerId2) {
+	public void removeOpponent(int playerId1, int playerId2) throws SQLException {
 		// TODO Auto-generated method stub
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int delete = 0;
 
+		String sql = "delete from opponent where player1 = ? and player2 = ?";
+
+			conn = getDataSource().getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, playerId1);
+			ps.setInt(2, playerId2);
+			delete = ps.executeUpdate();
+
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
 	}
+
 
 	public List<String> getOpponents(int playerId) throws SQLException {
 
