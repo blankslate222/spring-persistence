@@ -11,7 +11,7 @@ public class Sponsor implements Serializable{
 	private int id;
 	private String name;
 	private String description;
-	private Address address;
+	private String address;
 	public int getId() {
 		return id;
 	}
@@ -30,10 +30,10 @@ public class Sponsor implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Address getAddress() {
+	public String getAddress() {
 		return address;
 	}
-	public void setAddress(Address address) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
 }

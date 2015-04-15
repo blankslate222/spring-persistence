@@ -29,7 +29,7 @@ public class PlayerService {
 	public void setPlayerDaoImpl(PlayerDaoImpl playerDaoImpl) {
 		this.playerDaoImpl = playerDaoImpl;
 	}
-	
+
 	public SponsorDaoImpl getSponsorDaoImpl() {
 		return sponsorDaoImpl;
 	}
@@ -37,7 +37,7 @@ public class PlayerService {
 	public void setSponsorDaoImpl(SponsorDaoImpl sponsorDaoImpl) {
 		this.sponsorDaoImpl = sponsorDaoImpl;
 	}
-	
+
 	public OpponentDaoImpl getOpponentDaoImpl() {
 		return opponentDaoImpl;
 	}
@@ -47,9 +47,17 @@ public class PlayerService {
 	}
 
 	public Player createPlayer(Player player) throws SQLException {
-		return getPlayerDaoImpl().addPlayer(player);
+		if (getSponsorDaoImpl().getSponsor(player.getSponsor().getId()) == null) {
+			return null;
+		}
+		if ("".equals(player.getEmail()) || "".equals(player.getFirstName())
+				|| "".equals(player.getLastName())) {
+			return null;
+		}
+		int newPlayerId = getPlayerDaoImpl().addPlayer(player);
+		return this.getPlayer(newPlayerId);
 	}
-	
+
 	public Player getPlayer(int id) throws SQLException {
 		Player player = getPlayerDaoImpl().getPlayer(id);
 		Sponsor sponsor = player.getSponsor();
@@ -59,9 +67,23 @@ public class PlayerService {
 		player.setOpponents(opponents);
 		return player;
 	}
-	
-	public Player updatePlayer(int id, Player player) throws SQLException{
-		return getPlayerDaoImpl().updatePlayer(id, player);
+
+	public Player updatePlayer(int id, Player player) throws SQLException {
+		if(getPlayerDaoImpl().getPlayer(id) == null) {
+			return null;
+		}
+		if ("".equals(player.getEmail()) || "".equals(player.getFirstName())
+				|| "".equals(player.getLastName())) {
+			return null;
+		}
+		int updatedPlayerId = getPlayerDaoImpl().updatePlayer(id, player);
+		return this.getPlayer(updatedPlayerId);
+	}
+
+	public Player deletePlayer(int id) throws SQLException {
+		Player playerToBeDeleted = this.getPlayer(id);
+		int deletedPlayerId = getPlayerDaoImpl().deletePlayer(id);
+		return playerToBeDeleted;
 	}
 
 }

@@ -27,7 +27,7 @@ public class PlayerDaoImpl implements PlayerDao {
 		this.dataSource = dataSource;
 	}
 
-	public Player addPlayer(Player player) throws SQLException {
+	public int addPlayer(Player player) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -56,29 +56,57 @@ public class PlayerDaoImpl implements PlayerDao {
 		try {
 			ps.close();
 			conn.close();
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return this.getPlayer(rowid);
+		return (rowid);
 	}
 
-	public Player updatePlayer(int playerId, Player player) throws SQLException {
+	public int updatePlayer(int playerId, Player player) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement ps = null;
-		int insert = 0;
 
-		String sql = "update player set  id = ?";
+		String sql = "update player set  firstName = ?, lastName =?, email = ?,"
+				+ " address = ?, sponsor = ?, description = ? where id = ? ";
 
 		conn = getDataSource().getConnection();
 		ps = conn.prepareStatement(sql);
-		return null;
+		ps.setString(1, player.getFirstName());
+		ps.setString(2, player.getLastName());
+		ps.setString(3, player.getEmail());
+		ps.setString(4, player.getAddress());
+		ps.setInt(5, player.getSponsor().getId());
+		ps.setString(6, player.getDescription());
+		ps.setInt(7, playerId);
+		
+		int response = ps.executeUpdate();
+		
+		try {
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return playerId;
 	}
 
-	public Player deletePlayer(int playerId) throws SQLException {
+	public int deletePlayer(int playerId) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		String sql = "delete from player where id = ?";
+
+		conn = getDataSource().getConnection();
+		ps = conn.prepareStatement(sql);
+		ps.setInt(1, playerId);
+		ps.executeUpdate();
+		
+		return playerId;
 	}
 
 	public Player getPlayer(int playerId) throws SQLException {
@@ -106,6 +134,13 @@ public class PlayerDaoImpl implements PlayerDao {
 			player.setDescription(rs.getString("description"));
 			sponsor.setId(Integer.parseInt(rs.getString("sponsor")));
 			player.setSponsor(sponsor);
+		}
+		try {
+			ps.close();
+			conn.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return player;
 	}
