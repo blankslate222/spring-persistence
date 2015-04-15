@@ -22,17 +22,17 @@ public class OpponentService {
 		this.opponentDao = opponentDao;
 	}
 
-	public Opponent addOpponent(int playerId1, int playerId2) throws SQLException {
+	public String addOpponent(int playerId1, int playerId2) throws SQLException {
 		
-		getOpponentDao().addOpponent(playerId1, playerId2);
+		String result = getOpponentDao().addOpponent(playerId1, playerId2);
 		
-		return null;
+		return result;
 	}
 
-	public Opponent removeOpponent(int playerId1, int playerId2) throws SQLException {
+	public String removeOpponent(int playerId1, int playerId2) throws SQLException {
 		
-		getOpponentDao().removeOpponent(playerId1, playerId2);
+		String result = getOpponentDao().removeOpponent(playerId1, playerId2);
 		
-		return null;
+		return result;
 	}
 }

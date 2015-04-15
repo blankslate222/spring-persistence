@@ -26,39 +26,73 @@ public class OpponentDaoImpl implements OpponentDao {
 		this.dataSource = dataSource;
 	}
 
-	public void addOpponent(int playerId1, int playerId2) throws SQLException{
+	public String addOpponent(int playerId1, int playerId2) throws SQLException{
 		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int insert = 0;
+		
+		conn = getDataSource().getConnection();
 
-		String sql = "insert into opponent"
-				+ "(player1, player2) values(?,?)";
+		String opponentMappingExistsQuery = "SELECT count(1) mappingcount from opponent where (player1 = ? and player2 = ?) or (player1 = ? and player2 = ?)";
+		ps = conn.prepareStatement(opponentMappingExistsQuery);
+		ps.setInt(1, playerId1);
+		ps.setInt(2, playerId2);
+		ps.setInt(3, playerId2);
+		ps.setInt(4, playerId1);
+		ResultSet rs = ps.executeQuery();
+		int mappingCount = 0;
+		while (rs.next()) {
+			mappingCount = rs.getInt("mappingcount");
+			System.out.println("Mapping Count:"+ mappingCount);			
+		}
+		
+		if(mappingCount == 0){
+			String sql = "insert into opponent"
+					+ "(player1, player2) values(?,?)";
 
-			conn = getDataSource().getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, playerId1);
-			ps.setInt(2, playerId2);
-			insert = ps.executeUpdate();
-	//set others
-			try {
-				ps.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+				ps = conn.prepareStatement(sql);
+				ps.setInt(1, playerId1);
+				ps.setInt(2, playerId2);
+				insert = ps.executeUpdate();
+				
+				try {
+					ps.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return "mapping created";
+
+		}else{
+			return "mapping exists";
+		}
 			
 	}
 
-	public void removeOpponent(int playerId1, int playerId2) throws SQLException {
+	public String removeOpponent(int playerId1, int playerId2) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement ps = null;
 		int delete = 0;
+		conn = getDataSource().getConnection();
 
-		String sql = "delete from opponent where player1 = ? and player2 = ?";
+		String opponentMappingExistsQuery = "SELECT count(1) mappingcount from opponent where (player1 = ? and player2 = ?) or (player1 = ? and player2 = ?)";
+		ps = conn.prepareStatement(opponentMappingExistsQuery);
+		ps.setInt(1, playerId1);
+		ps.setInt(2, playerId2);
+		ps.setInt(3, playerId2);
+		ps.setInt(4, playerId1);
+		ResultSet rs = ps.executeQuery();
+		int mappingCount = 0;
+		while (rs.next()) {
+			mappingCount = rs.getInt("mappingcount");
+			System.out.println("Mapping Count:"+ mappingCount);			
+		}
 
-			conn = getDataSource().getConnection();
+		if(mappingCount == 1){
+			String sql = "delete from opponent where player1 = ? and player2 = ?";
+
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, playerId1);
 			ps.setInt(2, playerId2);
@@ -69,7 +103,11 @@ public class OpponentDaoImpl implements OpponentDao {
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
+			}			
+			return "mapping deleted";
+		}else{
+			return "no mapping exists";			
+		}
 		
 	}
 
