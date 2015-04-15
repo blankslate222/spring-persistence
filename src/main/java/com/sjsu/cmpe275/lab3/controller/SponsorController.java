@@ -81,8 +81,8 @@ public class SponsorController {
 	@ResponseBody
 	public ResponseEntity<Sponsor> updateSponsor(@PathVariable("id") int id,
 			@RequestParam("name") String name,
-			@RequestParam("address") String address,
-			@RequestParam("description") String description) {
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "description", required = false) String description) {
 		ResponseEntity<Sponsor> responseEntity = null;
 		Sponsor sponsor = new Sponsor();
 
@@ -95,7 +95,7 @@ public class SponsorController {
 			if (toBeUpdated == null) {
 				responseEntity = new ResponseEntity<Sponsor>(
 						HttpStatus.NOT_FOUND);
-			}
+			}else{
 			toBeUpdated = sponsorService.updateSponsor(id, sponsor);
 			if (toBeUpdated == null) {
 				responseEntity = new ResponseEntity<Sponsor>(
@@ -104,7 +104,7 @@ public class SponsorController {
 				responseEntity = new ResponseEntity<Sponsor>(toBeUpdated,
 						HttpStatus.OK);
 			}
-
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
