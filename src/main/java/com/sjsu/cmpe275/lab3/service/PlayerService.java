@@ -47,9 +47,6 @@ public class PlayerService {
 	}
 
 	public Player createPlayer(Player player) throws SQLException {
-		if (getSponsorDaoImpl().getSponsor(player.getSponsor().getId()) == null) {
-			return null;
-		}
 		if ("".equals(player.getEmail()) || "".equals(player.getFirstName())
 				|| "".equals(player.getLastName())) {
 			return null;
@@ -65,8 +62,8 @@ public class PlayerService {
 		Sponsor sponsor = player.getSponsor();
 		if(sponsor.getId() != 0){
 			sponsor = getSponsorDaoImpl().getSponsor(sponsor.getId());
-		}
-		player.setSponsor(sponsor);
+			player.setSponsor(sponsor);
+		}		
 		List<String> opponents = getOpponentDaoImpl().getOpponents(id);
 		player.setOpponents(opponents);
 		}

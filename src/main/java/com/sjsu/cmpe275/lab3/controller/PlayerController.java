@@ -37,10 +37,10 @@ public class PlayerController {
 		ResponseEntity<Player> responseEntity = null;
 		Player player = new Player();
 		Sponsor spnsr = new Sponsor();
-		if(!"".equals(sponsor)){
-		spnsr.setId(Integer.parseInt(sponsor));
-		}else{
-			spnsr.setId(0);	
+		if (null != sponsor) {
+			spnsr.setId(Integer.parseInt(sponsor));
+		} else {
+			spnsr.setId(0);
 		}
 		player.setFirstName(firstName);
 		player.setLastName(lastName);
@@ -53,7 +53,7 @@ public class PlayerController {
 			if (toBePlayer != null) {
 				responseEntity = new ResponseEntity<Player>(toBePlayer,
 						HttpStatus.OK);
-				//System.out.println("ctrllr");
+				// System.out.println("ctrllr");
 			} else {
 				responseEntity = new ResponseEntity<Player>(
 						HttpStatus.BAD_REQUEST);
@@ -93,7 +93,8 @@ public class PlayerController {
 
 	@RequestMapping(value = "/player/update/{id}", method = RequestMethod.POST, headers = { "Accept=text/xml, application/json" }, produces = { "application/json" })
 	@ResponseBody
-	public ResponseEntity<Player> updatePlayer(@PathVariable("id") int id,
+	public ResponseEntity<Player> updatePlayer(
+			@PathVariable("id") int id,
 			@RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName,
 			@RequestParam("email") String email,
@@ -103,7 +104,11 @@ public class PlayerController {
 		ResponseEntity<Player> responseEntity = null;
 		Player player = new Player();
 		Sponsor spnsr = new Sponsor();
-		spnsr.setId(Integer.parseInt(sponsor));
+		if (null != sponsor) {
+			spnsr.setId(Integer.parseInt(sponsor));
+		} else {
+			spnsr.setId(0);
+		}
 
 		player.setId(id);
 		player.setFirstName(firstName);
@@ -117,7 +122,7 @@ public class PlayerController {
 			if (toBeUpdated == null) {
 				responseEntity = new ResponseEntity<Player>(
 						HttpStatus.NOT_FOUND);
-			}
+			}else{
 			toBeUpdated = playerService.updatePlayer(id, player);
 			if (toBeUpdated == null) {
 				responseEntity = new ResponseEntity<Player>(
@@ -126,7 +131,7 @@ public class PlayerController {
 				responseEntity = new ResponseEntity<Player>(toBeUpdated,
 						HttpStatus.OK);
 			}
-
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -138,11 +143,10 @@ public class PlayerController {
 
 	@RequestMapping(value = "/player/delete/{id}", method = RequestMethod.DELETE, headers = { "Accept=text/xml, application/json" }, produces = { "application/json" })
 	@ResponseBody
-	public ResponseEntity<Player> deletePlayer(@PathVariable("id") int id,
-			@ModelAttribute("player") Player player, BindingResult result) {
+	public ResponseEntity<Player> deletePlayer(@PathVariable("id") int id) {
 		ResponseEntity<Player> responseEntity = null;
 		try {
-			Player toBeDeleted = playerService.getPlayer(player.getId());
+			Player toBeDeleted = playerService.getPlayer(id);
 			if (toBeDeleted == null) {
 				responseEntity = new ResponseEntity<Player>(
 						HttpStatus.NOT_FOUND);

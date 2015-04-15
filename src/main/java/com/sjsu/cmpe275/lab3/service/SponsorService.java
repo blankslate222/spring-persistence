@@ -38,6 +38,8 @@ public class SponsorService {
 		if(this.getSponsor(id) == null) {
 			return null;
 		}
+		if( "".equals(sponsor.getName())) return null;
+		
 		int updatedSponsorId = getSponsorDaoImpl().updateSponsor(id, sponsor);
 		return this.getSponsor(updatedSponsorId);
 	}
