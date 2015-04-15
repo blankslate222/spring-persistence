@@ -55,16 +55,22 @@ public class PlayerService {
 			return null;
 		}
 		int newPlayerId = getPlayerDaoImpl().addPlayer(player);
+		System.out.println("success");
 		return this.getPlayer(newPlayerId);
 	}
 
 	public Player getPlayer(int id) throws SQLException {
 		Player player = getPlayerDaoImpl().getPlayer(id);
+		if(player != null){
 		Sponsor sponsor = player.getSponsor();
-		sponsor = getSponsorDaoImpl().getSponsor(sponsor.getId());
+		if(sponsor.getId() != 0){
+			sponsor = getSponsorDaoImpl().getSponsor(sponsor.getId());
+		}
 		player.setSponsor(sponsor);
 		List<String> opponents = getOpponentDaoImpl().getOpponents(id);
 		player.setOpponents(opponents);
+		}
+		System.out.println("getting");
 		return player;
 	}
 

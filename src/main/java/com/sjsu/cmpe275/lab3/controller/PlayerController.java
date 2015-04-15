@@ -31,14 +31,17 @@ public class PlayerController {
 			@RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName,
 			@RequestParam("email") String email,
-			@RequestParam("address") String address,
-			@RequestParam("sponsor") String sponsor,
-			@RequestParam("description") String description) {
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "sponsor", required = false) String sponsor,
+			@RequestParam(value = "description", required = false) String description) {
 		ResponseEntity<Player> responseEntity = null;
 		Player player = new Player();
 		Sponsor spnsr = new Sponsor();
+		if(!"".equals(sponsor)){
 		spnsr.setId(Integer.parseInt(sponsor));
-
+		}else{
+			spnsr.setId(0);	
+		}
 		player.setFirstName(firstName);
 		player.setLastName(lastName);
 		player.setEmail(email);
@@ -50,6 +53,7 @@ public class PlayerController {
 			if (toBePlayer != null) {
 				responseEntity = new ResponseEntity<Player>(toBePlayer,
 						HttpStatus.OK);
+				//System.out.println("ctrllr");
 			} else {
 				responseEntity = new ResponseEntity<Player>(
 						HttpStatus.BAD_REQUEST);
@@ -93,9 +97,9 @@ public class PlayerController {
 			@RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName,
 			@RequestParam("email") String email,
-			@RequestParam("address") String address,
-			@RequestParam("sponsor") String sponsor,
-			@RequestParam("description") String description) {
+			@RequestParam(value = "address", required = false) String address,
+			@RequestParam(value = "sponsor", required = false) String sponsor,
+			@RequestParam(value = "description", required = false) String description) {
 		ResponseEntity<Player> responseEntity = null;
 		Player player = new Player();
 		Sponsor spnsr = new Sponsor();
